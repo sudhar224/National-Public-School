@@ -61,7 +61,7 @@ namespace NationalPublicSchool.Admin
 				DataTable dt = fnobj.Fetch("Select * from tbl_teach_subject where class_id = '" + classId + "' and subject_id = '" + subjectId + "' or  teacher_id = '" + teacherId + "'");
 				if (dt.Rows.Count == 0)
 				{
-					string query = "Insert into tbl_subject values ('" + classId + "','" + subjectId + "','" + teacherId + "')";
+					string query = "Insert into tbl_teach_subject values ('" + classId + "','" + subjectId + "','" + teacherId + "')";
 					fnobj.Query(query);
 					lblMsg.Text = "Inserted successfully!";
 					lblMsg.CssClass = "alert alert-success";
@@ -197,9 +197,8 @@ namespace NationalPublicSchool.Admin
 					ddlSubject.DataValueField = "subject_id";
 					ddlSubject.DataBind();
 					ddlSubject.Items.Insert(0, "Select Subject");
-					string teacherSubjectId = GridView1.DataKeys[e.Row.RowIndex].Value.ToString();
-					DataTable dataTable = fnobj.Fetch("select ts.id, ts.class_id, ts.subject_id, s.subject_name from tbl_teach_subject ts inner join tbl_subject s on ts.subject_id = s.subject_id where ts.id = '"+ teacherSubjectId +"'");
-					ddlSubject.SelectedValue = dataTable.Rows[0]["subject_id"].ToString();
+					string selectedSubject = DataBinder.Eval(e.Row.DataItem, "subject_name").ToString();
+					ddlSubject.Items.FindByText(selectedSubject).Selected = true;
 				}
 			}
 		}

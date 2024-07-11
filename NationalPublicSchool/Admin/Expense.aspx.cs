@@ -182,9 +182,8 @@ namespace NationalPublicSchool.Admin
 					ddlSubject.DataValueField = "subject_id";
 					ddlSubject.DataBind();
 					ddlSubject.Items.Insert(0, "Select Subject");
-					string expenseId = GridView1.DataKeys[e.Row.RowIndex].Value.ToString();
-					DataTable dataTable = fnobj.Fetch("	Select e.expence_id, e.class_id, e.subject_id, s.subject_name from tbl_expense e inner join tbl_subject s on e.subject_id = s.subject_id where e.expence_id = '"+expenseId+"'");
-					ddlSubject.SelectedValue = dataTable.Rows[0]["subject_id"].ToString();
+					string selectedSubject = DataBinder.Eval(e.Row.DataItem, "subject_name").ToString();
+					ddlSubject.Items.FindByText(selectedSubject).Selected = true;
 				}
 			}
 		}
